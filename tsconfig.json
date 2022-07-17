@@ -1,0 +1,22 @@
+{
+  "extends": "@quasar/app/tsconfig-preset",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"],
+      "src/*": ["src/*"],
+      "app/*": ["*"],
+      "components/*": ["src/components/*"],
+      "layouts/*": ["src/components/layouts/*"],
+      "organisms/*": ["src/components/organisms/*"],
+      "atoms/*": ["src/components/atoms/*"],
+      "molecules/*": ["src/components/molecules/*"],
+      "pages/*": ["src/components/pages/*"],
+      "assets/*": ["src/assets/*"],
+      "boot/*": ["src/boot/*"],
+      "vue$": ["node_modules/vue/dist/vue.esm.js"]
+    },
+    "skipLibCheck": true,
+    "typeRoots": ["./node_modules/@types", "./src/types", "./src/globals.d.ts"]
+  }
+}
