@@ -8,3 +8,8 @@ export default defineComponent({
   name: 'App',
 });
 </script>
+<style lang="scss">
+* {
+  font-family: 'Poppins', sans-serif;
+}
+</style>

@@ -35,3 +35,7 @@ quasar build
 ### Customize the configuration
 
 See [Configuring quasar.conf.js](https://quasar.dev/quasar-cli/quasar-conf-js).
+
+Image sources
+
+-Depression : Image[https://www.freepik.es/vectores/salud-mental]

@@ -1,0 +1,14 @@
+.form-tabs {
+  top: 1.5rem;
+  height: 500px;
+  width: fit-content;
+  max-width: 600px !important;
+  max-height: 500px !important;
+  background-color: transparent;
+  ::v-deep .q-tab__label {
+    font-weight: bolder;
+  }
+  &__panel {
+    background-color: transparent;
+  }
+}

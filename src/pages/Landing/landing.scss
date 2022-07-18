@@ -1,0 +1,70 @@
+.landing {
+  min-height: 100vh;
+  &__header {
+    &__wrapper {
+      left: 75px;
+      top: 10px;
+    }
+
+    &__brandName {
+      font-size: 0.925rem;
+      font-weight: bolder;
+    }
+  }
+  &__cover {
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    img {
+      max-height: 100%;
+      width: 100%;
+    }
+  }
+  &__info {
+    position: relative;
+    left: -2rem;
+    &__textWrapper {
+      width: 22rem;
+    }
+    &__title {
+      font-size: 2.5rem;
+      line-height: 3.75rem;
+    }
+  }
+  &__block {
+    background-color: var(--basic-landing);
+  }
+
+  &__imgWrapper {
+    width: 180px;
+    height: 200px;
+    &.--writer {
+      width: 115px;
+      height: 115px;
+    }
+  }
+  &__image {
+    width: 100%;
+    object-fit: contain;
+  }
+  &__footer {
+    &__terms {
+      top: 30px;
+      text-align: center;
+    }
+    &__term {
+      margin: 0 0.5rem;
+    }
+  }
+}
+@media only screen and (max-width: 780px) {
+  .landing__footer {
+    margin-top: 4rem;
+    padding: 30px;
+    background-color: var(--basic-landing);
+    &__terms {
+      top: auto;
+      text-align: center;
+    }
+  }
+}

@@ -1,1 +1,10 @@
 // app global css in SCSS form
+@import './quasar.variables.scss';
+
+:root {
+  --basic-landing: #2336b6;
+  --btn-radius: 12px;
+}
+.brand {
+  color: $primary;
+}
