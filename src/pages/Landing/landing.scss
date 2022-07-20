@@ -1,11 +1,6 @@
 .landing {
   min-height: 100vh;
   &__header {
-    &__wrapper {
-      left: 75px;
-      top: 10px;
-    }
-
     &__brandName {
       font-size: 0.925rem;
       font-weight: bolder;
@@ -15,6 +10,7 @@
     width: 100%;
     height: 100%;
     z-index: 1;
+    min-width: 200px;
     img {
       max-height: 100%;
       width: 100%;
@@ -22,17 +18,19 @@
   }
   &__info {
     position: relative;
-    left: -2rem;
     &__textWrapper {
-      width: 22rem;
+      max-width: 22rem;
+      width: 21rem;
     }
     &__title {
-      font-size: 2.5rem;
+      font-size: clamp(1.25rem, 1rem + 1.5vw, 2.5rem);
       line-height: 3.75rem;
     }
   }
   &__block {
     background-color: var(--basic-landing);
+    top: -20px;
+    height: 30rem;
   }
 
   &__imgWrapper {

@@ -4,14 +4,16 @@
       <img src="../../assets/realback.png" alt="logo" />
     </div>
     <header class="landing__header col-md-1 col-1 z-top row items-end">
-      <div class="landing__header__wrapper q-pa-sm relative-position">
+      <div
+        class="landing__header__wrapper q-pa-sm relative-position q-mt-lg q-ml-xl"
+      >
         <p class="landing__header__brandName no-margin no-paddgin text-white">
           MyPeace
         </p>
       </div>
     </header>
     <section
-      class="landing__content z-top col-md-10 col-10 q-pa-sm row items-center justify-around"
+      class="landing__content z-top col-md-10 col-12 q-pa-sm row items-center justify-around"
     >
       <aside class="landing__info column items-center">
         <div class="landing__info__textWrapper relative-position">
@@ -40,7 +42,11 @@
           />
         </figure>
       </aside>
-      <div :class="{ landing__block: $q.screen.lt.md }">
+      <div
+        :class="{
+          'landing__block full-width row  justify-center': $q.screen.lt.md,
+        }"
+      >
         <form-tabs />
       </div>
     </section>
