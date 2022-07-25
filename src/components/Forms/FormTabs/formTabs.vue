@@ -34,8 +34,8 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
-import Login from '@/components/organism/Login';
-import SignUp from '@/components/organism/SignUp';
+import Login from '@/components/Forms/Login';
+import SignUp from '@/components/Forms/SignUp';
 
 export default defineComponent({
   name: 'FormTabs',

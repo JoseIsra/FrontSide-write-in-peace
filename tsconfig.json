@@ -8,11 +8,10 @@
       "app/*": ["*"],
       "components/*": ["src/components/*"],
       "layouts/*": ["src/components/layouts/*"],
-      "organisms/*": ["src/components/organisms/*"],
-      "atoms/*": ["src/components/atoms/*"],
-      "molecules/*": ["src/components/molecules/*"],
+      "shared/*": ["src/components/shared/*"],
       "pages/*": ["src/components/pages/*"],
       "assets/*": ["src/assets/*"],
+      "utils/*": ["src/utils/*"],
       "boot/*": ["src/boot/*"],
       "vue$": ["node_modules/vue/dist/vue.esm.js"]
     },

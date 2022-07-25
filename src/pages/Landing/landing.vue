@@ -78,7 +78,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import FormTabs from '@/components/organism/FormTabs';
+import FormTabs from '@/components/Forms/FormTabs';
 
 export default defineComponent({
   name: 'Landing',

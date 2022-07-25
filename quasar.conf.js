@@ -73,10 +73,8 @@ module.exports = configure(function (ctx) {
         cfg.resolve.alias = {
           ...cfg.resolve.alias,
           '@': resolve(__dirname, './src'),
-          organisms: resolve(__dirname, './src/components/organisms'),
-          molecules: resolve(__dirname, './src/components/molecules'),
-          atoms: resolve(__dirname, './src/components/atoms'),
-          templates: resolve(__dirname, './src/components/templates'),
+          components: resolve(__dirname, './src/components'),
+          shared: resolve(__dirname, './src/components/shared'),
           pages: resolve(__dirname, './src/components/pages'),
         };
       },
@@ -97,7 +95,7 @@ module.exports = configure(function (ctx) {
       server: {
         type: 'http',
       },
-      port: 8080,
+      port: 8081,
       open: true, // opens browser window automatically
     },
 
