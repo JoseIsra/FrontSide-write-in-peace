@@ -3,8 +3,49 @@
 
 :root {
   --basic-landing: #2336b6;
-  --btn-radius: 12px;
+  --btn-radius: 10px;
+  --basic-white: #fffffe;
 }
+* {
+  &::-webkit-scrollbar {
+    background-color: transparent;
+    width: 8px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: $primary;
+    border-radius: 10px;
+  }
+}
+
 .brand {
   color: $primary;
+}
+
+.dark-word {
+  color: $dark;
+}
+
+.default-white {
+  background-color: var(--basic-white);
+}
+
+.text-xs {
+  font-size: 0.75rem;
+  line-height: 1rem;
+}
+.text-sm {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+}
+.text-md {
+  font-size: 1rem;
+  line-height: 1.5rem;
+}
+.text-lg {
+  font-size: 0.125rem;
+  line-height: 1.75rem;
+}
+.text-xl {
+  font-size: 1.25rem;
+  line-height: 1.75rem;
 }
