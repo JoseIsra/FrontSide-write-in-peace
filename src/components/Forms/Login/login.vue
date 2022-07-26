@@ -4,31 +4,36 @@
       <h5 class="no-margin no-padding brand text-weight-bolder">MyPeace</h5>
     </template>
     <template #content>
-      <div class="relative-position">
-        <p
+      <basic-input
+        v-model="v$.email.$model"
+        label="Correo"
+        :error="v$.email.$errors.length > 0"
+        ><p
           v-for="error of v$.email.$errors"
           :key="error.$uid"
-          class="no-margin text-red absolute"
+          class="no-margin text-red"
         >
           {{ error.$message }}
         </p>
-        <basic-input v-model="v$.email.$model" label="Correo" />
-      </div>
-      <div class="relative-position">
+      </basic-input>
+      <basic-input
+        v-model="v$.password.$model"
+        type="password"
+        label="Contraseña"
+        :error="v$.password.$errors.length > 0"
+      >
         <p
           v-for="error of v$.password.$errors"
           :key="error.$uid"
           style="bottom: 100%"
-          class="text-red no-margin absolute"
+          class="text-red no-margin"
         >
           {{ error.$message }}
         </p>
-        <basic-input
-          v-model="v$.password.$model"
-          type="password"
-          label="Contraseña"
-        />
-      </div>
+        <template #icon-place>
+          <q-icon name="lock" size="18px" />
+        </template>
+      </basic-input>
       <router-link to="#">Olvidé mi contraseña</router-link>
     </template>
     <template #action>
@@ -51,6 +56,7 @@ import BasicInput from 'shared/BasicInput';
 import useVuelidate from '@vuelidate/core';
 import { required, email, minLength, helpers } from '@vuelidate/validators';
 import { useRouter } from 'vue-router';
+import { errorNotification } from '@/utils/notification';
 
 export default defineComponent({
   name: 'Login',
@@ -79,8 +85,11 @@ export default defineComponent({
 
     const v$ = useVuelidate(rules, state);
 
-    const submitLogin = () => {
-      // const res = await v$.value.$validate();
+    const submitLogin = async () => {
+      const res = await v$.value.$validate();
+      if (!res)
+        return errorNotification('Complete correctamente el formulario');
+
       void router.push({
         name: 'trunk',
       });

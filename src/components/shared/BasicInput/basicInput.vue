@@ -4,7 +4,14 @@
     outlined
     :value="value"
     @input="$emit('update:value', $event.target.value)"
-  />
+  >
+    <template #error>
+      <slot></slot>
+    </template>
+    <template #append>
+      <slot name="icon-place"></slot>
+    </template>
+  </q-input>
 </template>
 
 <script lang="ts">

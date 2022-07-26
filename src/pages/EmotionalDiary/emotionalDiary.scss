@@ -27,8 +27,14 @@
       img {
         width: 100%;
         object-fit: contain;
+        transform-style: preserve-3d;
         height: 100%;
       }
+    }
+  }
+  &__atropos {
+    :deep(.inner-wrapper) {
+      border-radius: var(--btn-radius);
     }
   }
 }
