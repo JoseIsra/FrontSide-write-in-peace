@@ -1,5 +1,5 @@
 <template>
-  <base-form class="login">
+  <base-form class="login" @submit-form="submitLogin">
     <template #title>
       <h5 class="no-margin no-padding brand text-weight-bolder">MyPeace</h5>
     </template>
@@ -43,7 +43,7 @@
         label="Iniciar sesión"
         class="login__btn text-weight-bolder q-py-md"
         no-caps
-        @click="submitLogin"
+        type="submit"
       />
     </template>
   </base-form>
@@ -57,6 +57,8 @@ import useVuelidate from '@vuelidate/core';
 import { required, email, minLength, helpers } from '@vuelidate/validators';
 import { useRouter } from 'vue-router';
 import { errorNotification } from '@/utils/notification';
+// import { api } from '@/boot/axios';
+// import { BaseResponse } from '@/utils/types';
 
 export default defineComponent({
   name: 'Login',
@@ -90,6 +92,8 @@ export default defineComponent({
       if (!res)
         return errorNotification('Complete correctamente el formulario');
 
+      // const json = await api.get<BaseResponse>('/writting');
+      // const data = json.data;
       void router.push({
         name: 'trunk',
       });

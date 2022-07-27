@@ -1,5 +1,5 @@
 <template>
-  <base-form class="signUp">
+  <base-form class="signUp" @submit-form="submitSignUp">
     <template #title>
       <h5 class="no-margin no-padding brand text-weight-bolder">MyPeace</h5>
     </template>
@@ -46,7 +46,7 @@
         label="Registrarme"
         class="signUp__btn text-weight-bolder q-py-md"
         no-caps
-        @click="submitLogin"
+        type="submit"
       />
     </template>
   </base-form>
@@ -95,7 +95,7 @@ export default defineComponent({
 
     const v$ = useVuelidate(rules, form);
 
-    const submitLogin = async () => {
+    const submitSignUp = async () => {
       const res = await v$.value.$validate();
       if (!res)
         return errorNotification('Complete correctamente el formulario');
@@ -108,7 +108,7 @@ export default defineComponent({
     return {
       form,
       v$,
-      submitLogin,
+      submitSignUp,
     };
   },
 });

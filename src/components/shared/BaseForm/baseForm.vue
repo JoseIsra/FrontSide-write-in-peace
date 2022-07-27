@@ -1,5 +1,5 @@
 <template>
-  <div class="base-form bg-white q-pa-md">
+  <q-form class="base-form bg-white q-pa-md" @submit="handleSubmit">
     <div class="base-form__inner column items-center">
       <section class="q-mb-md">
         <slot name="title">Un titulo</slot>
@@ -11,7 +11,7 @@
         <slot name="action"> un botón</slot>
       </section>
     </div>
-  </div>
+  </q-form>
 </template>
 
 <script lang="ts">
@@ -19,8 +19,14 @@ import { defineComponent } from 'vue';
 
 export default defineComponent({
   name: 'BaseForm',
-  setup() {
-    return {};
+  emits: ['submit-form'],
+  setup(props, { emit }) {
+    const handleSubmit = () => {
+      emit('submit-form');
+    };
+    return {
+      handleSubmit,
+    };
   },
 });
 </script>

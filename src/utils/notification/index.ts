@@ -1,12 +1,14 @@
 import { Notify } from 'quasar';
 
-export const notificationMaker = (color: string) => (message: string) => {
-  Notify.create({
-    color,
-    message,
-    position: 'bottom',
-  });
-};
+export const notificationMaker =
+  (color: string, textColor: string) => (message: string) => {
+    Notify.create({
+      color,
+      message,
+      textColor,
+      position: 'bottom',
+    });
+  };
 
-export const successNotification = notificationMaker('positive');
-export const errorNotification = notificationMaker('red');
+export const successNotification = notificationMaker('positive', 'white');
+export const errorNotification = notificationMaker('red-8', 'red-1');
