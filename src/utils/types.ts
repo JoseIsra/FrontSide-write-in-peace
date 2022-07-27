@@ -19,3 +19,6 @@ export interface MenuProfileActions {
   logout(): void;
   profile(): void;
 }
+export interface BaseApiResponse {
+  message: string;
+}

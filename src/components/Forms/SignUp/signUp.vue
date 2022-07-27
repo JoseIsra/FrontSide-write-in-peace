@@ -1,34 +1,43 @@
 <template>
-  <base-form class="signUp">
+  <base-form class="signUp" @submit-form="submitSignUp">
     <template #title>
       <h5 class="no-margin no-padding brand text-weight-bolder">MyPeace</h5>
     </template>
     <template #content>
-      <basic-input v-model="v$.userName.$model" label="Nombre" />
-      <basic-input v-model="v$.lastName.$model" label="Apellidos" />
-      <basic-input v-model="v$.email.$model" label="Correo" />
-      <p
-        v-for="error of v$.email.$errors"
-        :key="error.$uid"
-        class="no-margin text-red"
+      <basic-input v-model="v$.userName.$model" label="Nombre" dense />
+      <basic-input v-model="v$.lastName.$model" label="Apellidos" dense />
+      <basic-input
+        v-model="v$.email.$model"
+        label="Correo"
+        dense
+        :error="v$.email.$errors.length > 0"
       >
-        {{ error.$message }}
-      </p>
-      <div class="relative-position">
-        <basic-input
-          v-model="v$.password.$model"
-          type="password"
-          label="Contraseña"
-        />
         <p
-          v-for="error of v$.password.$errors"
+          v-for="error of v$.email.$errors"
           :key="error.$uid"
-          class="no-margin text-red absolute"
-          style="top: 100%"
+          class="no-margin text-red"
         >
           {{ error.$message }}
         </p>
-      </div>
+      </basic-input>
+      <basic-input
+        v-model="v$.password.$model"
+        type="password"
+        label="Contraseña"
+        dense
+        :error="v$.password.$errors.length > 0"
+      >
+        <p
+          v-for="error of v$.password.$errors"
+          :key="error.$uid"
+          class="no-margin text-red"
+        >
+          {{ error.$message }}
+        </p>
+        <template #icon-place>
+          <q-icon name="lock" size="18px" />
+        </template>
+      </basic-input>
     </template>
     <template #action>
       <q-btn
@@ -37,6 +46,7 @@
         label="Registrarme"
         class="signUp__btn text-weight-bolder q-py-md"
         no-caps
+        type="submit"
       />
     </template>
   </base-form>
@@ -48,11 +58,14 @@ import BaseForm from 'shared/BaseForm';
 import BasicInput from 'shared/BasicInput';
 import useVuelidate from '@vuelidate/core';
 import { required, email, minLength, helpers } from '@vuelidate/validators';
+import { useRouter } from 'vue-router';
+import { errorNotification } from '@/utils/notification';
 
 export default defineComponent({
   name: 'Login',
   components: { BaseForm, BasicInput },
   setup() {
+    const router = useRouter();
     const form = reactive({
       email: '',
       password: '',
@@ -66,7 +79,7 @@ export default defineComponent({
         email: helpers.withMessage('No es un correo válido', email),
       },
       password: {
-        required: helpers.withMessage('No has escrito tu contraseña', required),
+        required,
         minLength: helpers.withMessage(
           'La contraseña necesita mínimo 8 carácteres',
           minLength(8)
@@ -82,15 +95,20 @@ export default defineComponent({
 
     const v$ = useVuelidate(rules, form);
 
-    const submitLogin = async () => {
+    const submitSignUp = async () => {
       const res = await v$.value.$validate();
-      alert(res);
+      if (!res)
+        return errorNotification('Complete correctamente el formulario');
+
+      void router.push({
+        name: 'trunk',
+      });
     };
 
     return {
       form,
       v$,
-      submitLogin,
+      submitSignUp,
     };
   },
 });

@@ -51,7 +51,6 @@
       </div>
     </section>
     <footer class="landing__footer col-auto col-1 col-md-1 z-top row">
-      <aside v-if="$q.screen.gt.sm" class="col-md-7 col-7"></aside>
       <aside
         :class="[
           'landing__footer__terms row text-white relative-position items-center justify-center',
@@ -59,19 +58,20 @@
         ]"
       >
         <div class="landing__footer__term">
-          <p class="no-margin no-padding">Terminos y condiciones</p>
+          <p class="no-margin no-padding dark-word">Terminos y condiciones</p>
         </div>
         <div class="landing__footer__term">
-          <p class="landing__footer__term no-margin no-padding">
+          <p class="landing__footer__term no-margin no-padding dark-word">
             Escritura expresiva
           </p>
         </div>
         <div class="landing__footer__term">
-          <p class="landing__footer__term no-margin no-padding">
+          <p class="landing__footer__term no-margin no-padding dark-word">
             MyPeace-2022 &copy;
           </p>
         </div>
       </aside>
+      <aside v-if="$q.screen.gt.sm" class="col-md-7 col-7"></aside>
     </footer>
   </main>
 </template>

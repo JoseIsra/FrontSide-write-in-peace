@@ -99,7 +99,15 @@
             </div>
           </div>
           <picture class="diary__date__figure absolute">
-            <img alt="picture" src="../../assets/amico.png" />
+            <atropos
+              class="diary__atropos"
+              :active-offset="60"
+              :shadow-offset="30"
+              :shadow-scale="0.09"
+              inner-class="inner-wrapper"
+            >
+              <img alt="picture" src="../../assets/amico.png" />
+            </atropos>
           </picture>
         </aside>
       </div>
@@ -109,10 +117,13 @@
 
 <script lang="ts">
 import { defineComponent, reactive, computed } from 'vue';
+import 'atropos/css';
+import Atropos from 'atropos/vue';
 import moment from 'moment';
 
 export default defineComponent({
   name: 'EmotionalDiary',
+  components: { Atropos },
   setup() {
     const models = reactive({
       questionOne: '',
