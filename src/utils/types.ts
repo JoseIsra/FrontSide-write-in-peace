@@ -22,3 +22,9 @@ export interface MenuProfileActions {
 export interface BaseApiResponse {
   message: string;
 }
+
+export interface Topic {
+  id: string;
+  name: string;
+  active: boolean;
+}
