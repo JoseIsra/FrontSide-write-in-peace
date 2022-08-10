@@ -20,7 +20,7 @@ const tinyDefaultStyles = `
 
 export const config = {
   height: 500,
-  width: '95vw',
+  width: '100%',
   menubar: false,
   ...options,
   resize: false,

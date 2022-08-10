@@ -1,20 +1,37 @@
 <template>
   <div class="writting">
-    <!-- titulo -->
-
-    <main class="writting__wrapper q-pa-sm column q-gutter-y-md">
-      <section class="">
-        <q-input placeholder="Título nuevo aquí... 😀" />
+    <section-title class="q-my-md q-ml-md">
+      <template #title>
+        <h5 class="no-margin brand text-weight-bold">
+          <q-icon name="edit_note" />
+          Crea un escrito
+        </h5>
+      </template>
+      <template #hint>
+        <p class="no-margin text-xs">
+          Escribe sobre lo que gustes.No te contengas,
+          <br />
+          es un lugar seguro para ti 😊
+        </p>
+      </template>
+    </section-title>
+    <main class="writting__wrapper q-px-md column">
+      <section class="row">
+        <q-input
+          v-model="title"
+          placeholder="Título nuevo aquí... 🧐"
+          class="text-lg col-md-6 col-6"
+          clearable
+        />
       </section>
-      <section
-        :class="['q-pa-xs row items-center', { 'no-wrap': $q.screen.gt.xs }]"
-      >
+      <section :class="['row items-center', { 'no-wrap': $q.screen.gt.xs }]">
         <div
-          class="q-py-xs q-px-sm rounded-borders bg-light-blue-1"
+          class="q-py-xs q-px-sm rounded-borders bg-light-blue-1 col-md-2 col-2 q-my-md"
           style="width: fit-content"
         >
           <label class="text-light-blue-8 text-weight-bold">
             Tópicos
+            <span style="font-size: 11px"> ({{ topicsStatus }}) </span>
             <q-icon name="help" size="18px" class="md">
               <q-tooltip class="text-xs">
                 Puedes usar la barra espaciadora o la tecla Enter para agregar
@@ -43,21 +60,30 @@
               @remove="removeTopic(topic.id)"
             />
           </div>
-          <q-form @submit.prevent="addTopic">
+          <q-form autocomplete="off" class="row no-wrap" @submit="addTopic">
             <q-input
               v-model="topicModel"
+              name="topicModel"
+              ref="topicInput"
               autofocus
               placeholder="Nuevo tópico"
               dense
               @keydown.space="addTopic"
             />
             <div>
-              <button type="submit">go</button>
+              <q-btn
+                icon="add"
+                round
+                flat
+                type="submit"
+                dense
+                color="primary"
+              />
             </div>
           </q-form>
         </div>
       </section>
-      <section class="writting__editorContainer row q-mx-auto">
+      <section class="writting__editorContainer">
         <editor
           v-model="writtingModel"
           api-key="751x0bdwwfwutahlap5uql2wzxh6zcfirqsk279fpw1sl4zi"
@@ -71,29 +97,34 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
+import { defineComponent, ref, computed } from 'vue';
 import Editor from '@tinymce/tinymce-vue';
 import { config } from '@/config/tinyConfig';
 import { errorNotification } from '@/utils/notification';
 import { v4 as uuidv4 } from 'uuid';
 import { Topic } from '@/utils/types';
+import SectionTitle from 'shared/SectionTitle';
 
 const regexInputWithContent = /^\s*$/;
 
 export default defineComponent({
   name: 'Writting',
-  components: { Editor },
+  components: { Editor, SectionTitle },
   setup() {
     const writtingModel = ref('');
     const titleModel = ref('');
     const topicModel = ref('');
     const topics = ref<Topic[]>([]);
+    const topicInput = ref({} as HTMLElement);
+    const title = ref<string>('');
 
     const addTopic = () => {
       if (regexInputWithContent.exec(topicModel.value)) {
         errorNotification('Un tópico no puede estar vacío');
         return;
       }
+      if (!(topics.value.length < 3))
+        return errorNotification('Puedes agregar 3 tópicos como máximo');
       const newTopic = {
         id: uuidv4(),
         name: topicModel.value,
@@ -101,12 +132,17 @@ export default defineComponent({
       };
       topics.value.push(newTopic);
       topicModel.value = '';
+      topicInput.value.focus();
     };
 
     const removeTopic = (id: string) => {
       const topicIndex = topics.value.findIndex((t) => t.id == id);
       topics.value.splice(topicIndex, 1);
     };
+
+    const topicsStatus = computed(() => {
+      return `${topics.value.length} / 3`;
+    });
 
     return {
       writtingModel,
@@ -116,6 +152,9 @@ export default defineComponent({
       addTopic,
       topics,
       removeTopic,
+      topicInput,
+      title,
+      topicsStatus,
     };
   },
 });

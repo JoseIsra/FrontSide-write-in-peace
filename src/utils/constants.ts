@@ -7,7 +7,7 @@ export const appTabs = [
   },
   {
     name: 'emotional',
-    label: 'Diarion emocional',
+    label: 'Diario emocional',
     redirect: { name: 'emotional' },
     icon: 'history_edu',
   },
