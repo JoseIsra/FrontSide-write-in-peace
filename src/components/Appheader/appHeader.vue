@@ -1,10 +1,19 @@
 <template>
-  <q-header elevated class="head default-white q-pa-sm">
+  <q-header elevated class="head q-pa-sm">
     <nav class="row items-center no-wrap">
-      <aside class="col-2 col-md-1">
+      <aside class="col-2 col-md-1 row no-wrap">
+        <q-btn
+          dense
+          flat
+          icon="menu"
+          text-color="primary"
+          class="q-mr-sm sm"
+          @click="$emit('toggle-drawer')"
+        />
         <h4 class="no-margin text-weight-bolder dark-word text-md">MyPeace</h4>
       </aside>
       <q-tabs
+        v-if="$q.screen.gt.sm"
         v-model="currentTab"
         indicator-color="primary"
         shrink
@@ -24,7 +33,7 @@
           :icon="tab.icon"
         />
       </q-tabs>
-      <q-space class="md" />
+      <q-space />
       <aside
         class="head__profile q-py-xs q-px-sm dark-word col-md-2 col-1 row items-center justify-between"
       >
@@ -67,6 +76,7 @@ import { useRouter } from 'vue-router';
 
 export default defineComponent({
   name: 'AppHeader',
+  emits: ['toggle-drawer'],
   setup() {
     const router = useRouter();
     const currentTab = ref('trunk');

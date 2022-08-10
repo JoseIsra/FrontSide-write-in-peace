@@ -1,10 +1,20 @@
 <template>
   <section class="diary q-py-md">
-    <header class="q-pa-md q-my-lg">
-      <h6 class="no-margin text-primary text-weight-bolder">
-        Diario emocional
-      </h6>
-    </header>
+    <section-title class="q-my-md q-ml-md">
+      <template #title>
+        <h5 class="no-margin brand text-weight-bold">
+          <q-icon name="history_edu" />
+          Diario emocional
+        </h5>
+      </template>
+      <template #hint>
+        <p class="no-margin text-xs">
+          Deja ir aquella mala experiencia que aún
+          <br />
+          persiste en tu poderosa mente 😎
+        </p>
+      </template>
+    </section-title>
     <main class="diary__body full-width row items-center justify-center">
       <div
         class="diary__wrapper row bg-primary col-md-9 q-pa-md justify-around"
@@ -120,10 +130,11 @@ import { defineComponent, reactive, computed } from 'vue';
 import 'atropos/css';
 import Atropos from 'atropos/vue';
 import moment from 'moment';
+import SectionTitle from 'shared/SectionTitle';
 
 export default defineComponent({
   name: 'EmotionalDiary',
-  components: { Atropos },
+  components: { Atropos, SectionTitle },
   setup() {
     const models = reactive({
       questionOne: '',
