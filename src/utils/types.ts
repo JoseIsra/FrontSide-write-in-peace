@@ -28,3 +28,34 @@ export interface Topic {
   name: string;
   active: boolean;
 }
+
+export interface User {
+  name: string;
+  lastName: string;
+  alias: string;
+  email: string;
+  options: string;
+  id: string;
+}
+
+export interface LoginResponse {
+  message: string;
+  user: User;
+  token: string;
+  expiresIn: string;
+}
+
+export type TokenResponse = Pick<LoginResponse, 'token' | 'expiresIn'> &
+  BaseApiResponse;
+
+export type UserResponse = {
+  user: User;
+  message: string;
+};
+
+export interface SigninUserData {
+  email: string;
+  password: string;
+  name: string;
+  lastName: string;
+}

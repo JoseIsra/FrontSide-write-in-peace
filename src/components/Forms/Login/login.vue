@@ -57,14 +57,16 @@ import useVuelidate from '@vuelidate/core';
 import { required, email, minLength, helpers } from '@vuelidate/validators';
 import { useRouter } from 'vue-router';
 import { errorNotification } from '@/utils/notification';
-// import { api } from '@/boot/axios';
-// import { BaseResponse } from '@/utils/types';
+import { api } from '@/boot/axios';
+import { LoginResponse } from '@/utils/types';
+import { useUser } from '@/composables/user';
 
 export default defineComponent({
   name: 'Login',
   components: { BaseForm, BasicInput },
   setup() {
     const router = useRouter();
+    const { setToken, setUser } = useUser();
 
     const state = reactive({
       email: '',
@@ -91,12 +93,24 @@ export default defineComponent({
       const res = await v$.value.$validate();
       if (!res)
         return errorNotification('Complete correctamente el formulario');
+      try {
+        const { data } = await api.post<LoginResponse>('/user/login', {
+          email: state.email,
+          password: state.password,
+        });
 
-      // const json = await api.get<BaseResponse>('/writting');
-      // const data = json.data;
-      void router.push({
-        name: 'trunk',
-      });
+        if (!data.user) {
+          errorNotification('Credenciales incorrectas');
+          return;
+        }
+        setUser(data.user);
+        setToken(data.token);
+        void router.push({
+          name: 'emotional',
+        });
+      } catch (error) {
+        errorNotification('No se ha podido iniciar sesión');
+      }
     };
 
     return {

@@ -38,7 +38,7 @@
         class="head__profile q-py-xs q-px-sm dark-word col-md-2 col-1 row items-center justify-between"
       >
         <div class="md">
-          <label>Mi nombre</label>
+          <label class="ellipsis">{{ user.name }}</label>
         </div>
         <q-btn dense round icon="keyboard_arrow_down" flat>
           <q-menu
@@ -73,6 +73,9 @@ import { defineComponent, ref, reactive } from 'vue';
 import { appTabs, menuProfile } from '@/utils/constants';
 import { AppTabs, MenuProfile, MenuProfileActions } from '@/utils/types';
 import { useRouter } from 'vue-router';
+import { useUser } from '@/composables/user';
+import { userService } from '@/api/userApi';
+import { successNotification } from '@/utils/notification';
 
 export default defineComponent({
   name: 'AppHeader',
@@ -88,10 +91,25 @@ export default defineComponent({
       profile: () => redirectToProfile(),
     });
 
+    const { user } = useUser();
+
     const logout = () => {
-      void router.push({
-        name: 'landing',
-      });
+      userService
+        .logoutUser()
+        .then(() => {
+          successNotification('Hasta la próxima 😀');
+          void router.push({
+            name: 'landing',
+          });
+        })
+        .catch(() => {
+          console.error('error on logout');
+        })
+        .finally(() => {
+          void router.push({
+            name: 'landing',
+          });
+        });
     };
 
     const redirectToProfile = () => {
@@ -101,12 +119,12 @@ export default defineComponent({
     const handleOption = (action: string) => {
       menuProfileActions[action as keyof MenuProfileActions]();
     };
-
     return {
       currentTab,
       tabs,
       profileOptions,
       handleOption,
+      user,
     };
   },
 });

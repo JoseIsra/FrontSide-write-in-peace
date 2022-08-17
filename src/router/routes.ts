@@ -19,16 +19,25 @@ const routes: RouteRecordRaw[] = [
         path: 'trunk',
         name: 'trunk',
         component: Trunk,
+        meta: {
+          auth: true,
+        },
       },
       {
         path: 'diary-emotional',
         name: 'emotional',
         component: EmotionalDiary,
+        meta: {
+          auth: true,
+        },
       },
       {
         path: 'writting',
         name: 'writting',
         component: Writting,
+        meta: {
+          auth: true,
+        },
       },
     ],
   },
@@ -37,6 +46,7 @@ const routes: RouteRecordRaw[] = [
   // but you can also remove it
   {
     path: '/:catchAll(.*)*',
+    name: 'forbid',
     component: () => import('@/pages/Error404.vue'),
   },
 ];
