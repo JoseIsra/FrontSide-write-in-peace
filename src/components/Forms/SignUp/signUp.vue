@@ -59,7 +59,9 @@ import BasicInput from 'shared/BasicInput';
 import useVuelidate from '@vuelidate/core';
 import { required, email, minLength, helpers } from '@vuelidate/validators';
 import { useRouter } from 'vue-router';
-import { errorNotification } from '@/utils/notification';
+import { errorNotification, successNotification } from '@/utils/notification';
+import { userService } from '@/api/userApi';
+import { useUser } from '@/composables/user';
 
 export default defineComponent({
   name: 'Login',
@@ -72,6 +74,7 @@ export default defineComponent({
       userName: '',
       lastName: '',
     });
+    const { setUser, setToken } = useUser();
 
     const rules = computed(() => ({
       email: {
@@ -100,8 +103,21 @@ export default defineComponent({
       if (!res)
         return errorNotification('Complete correctamente el formulario');
 
+      const { data } = await userService.signUpUser({
+        email: form.email,
+        password: form.password,
+        name: form.userName,
+        lastName: form.lastName,
+      });
+      if (!data.user) {
+        errorNotification('El correo ya está en uso');
+        return;
+      }
+      setToken(data.token);
+      setUser(data.user);
+      successNotification('Sesión iniciada');
       void router.push({
-        name: 'trunk',
+        name: 'emotional',
       });
     };
 
