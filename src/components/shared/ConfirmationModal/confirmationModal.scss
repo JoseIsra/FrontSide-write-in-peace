@@ -1,0 +1,14 @@
+.confirmation {
+  max-width: 1200px !important;
+  width: 450px;
+  border-radius: 8px;
+  &__pictureWrapper {
+    width: 180px;
+    height: 180px;
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+  }
+}

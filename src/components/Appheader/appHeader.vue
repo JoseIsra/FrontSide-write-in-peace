@@ -37,8 +37,13 @@
       <aside
         class="head__profile q-py-xs q-px-sm dark-word col-md-2 col-1 row items-center justify-between"
       >
-        <div class="md">
-          <label class="ellipsis">{{ user.name }}</label>
+        <div class="md row items-center q-gutter-x-sm">
+          <q-avatar text-color="white" color="teal-5" size="1.5rem">{{
+            avatarUserName
+          }}</q-avatar>
+          <label class="ellipsis text-xs text-grey-9 text-weight-bolder">{{
+            user.name
+          }}</label>
         </div>
         <q-btn dense round icon="keyboard_arrow_down" flat>
           <q-menu
@@ -69,7 +74,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, reactive } from 'vue';
+import { defineComponent, ref, reactive, computed } from 'vue';
 import { appTabs, menuProfile } from '@/utils/constants';
 import { AppTabs, MenuProfile, MenuProfileActions } from '@/utils/types';
 import { useRouter } from 'vue-router';
@@ -119,12 +124,20 @@ export default defineComponent({
     const handleOption = (action: string) => {
       menuProfileActions[action as keyof MenuProfileActions]();
     };
+
+    const avatarUserName = computed(() => {
+      return `${user.name[0].toUpperCase()}${user.lastName
+        .split(' ')[0]
+        .charAt(0)
+        .toUpperCase()}`;
+    });
     return {
       currentTab,
       tabs,
       profileOptions,
       handleOption,
       user,
+      avatarUserName,
     };
   },
 });

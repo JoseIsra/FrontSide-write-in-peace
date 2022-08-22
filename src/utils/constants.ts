@@ -31,3 +31,17 @@ export const menuProfile = [
     action: 'logout',
   },
 ];
+
+export enum API_RESPONSE {
+  SUCCESS = 200,
+}
+
+export enum WRITTING_TYPE {
+  DIARYEMOTIONAL = 0,
+  WRITTING = 1,
+}
+
+export enum WRITTING_CLASSIFICATION {
+  PUBLISHED = 0,
+  NOT_PUBLISHED = 1,
+}
