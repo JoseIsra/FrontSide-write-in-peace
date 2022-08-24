@@ -4,7 +4,7 @@
       <template #title>
         <h5 class="no-margin brand text-weight-bold">
           <q-icon name="edit_note" />
-          Crea un escrito
+          Crea un escrito anónimo
         </h5>
       </template>
       <template #hint>
@@ -16,13 +16,14 @@
       </template>
     </section-title>
     <main class="writting__wrapper q-px-md column">
-      <section class="row">
+      <section class="row items-center justify-between">
         <q-input
           v-model="title"
           placeholder="Título nuevo aquí... 🧐"
           class="text-lg col-md-6 col-6"
           clearable
         />
+        <q-btn label="Guardar" color="primary" @click="showModal = true" />
       </section>
       <section :class="['row items-center', { 'no-wrap': $q.screen.gt.xs }]">
         <div
@@ -93,30 +94,41 @@
         />
       </section>
     </main>
+    <q-dialog v-model="showModal">
+      <confirmation-modal @save-publish="saveAndPublish" />
+    </q-dialog>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, computed } from 'vue';
+import { defineComponent, ref, computed, onMounted } from 'vue';
 import Editor from '@tinymce/tinymce-vue';
 import { config } from '@/config/tinyConfig';
 import { errorNotification } from '@/utils/notification';
 import { v4 as uuidv4 } from 'uuid';
 import { Topic } from '@/utils/types';
 import SectionTitle from 'shared/SectionTitle';
+import { useQuasar, QSpinnerGears } from 'quasar';
+import ConfirmationModal from 'shared/ConfirmationModal';
+import { writtingService } from '@/api/writtingApi';
+import { useUser } from '@/composables/user';
+import moment from 'moment';
+import { WRITTING_TYPE } from '@/utils/constants';
 
 const regexInputWithContent = /^\s*$/;
 
 export default defineComponent({
   name: 'Writting',
-  components: { Editor, SectionTitle },
+  components: { Editor, SectionTitle, ConfirmationModal },
   setup() {
     const writtingModel = ref('');
-    const titleModel = ref('');
     const topicModel = ref('');
     const topics = ref<Topic[]>([]);
     const topicInput = ref({} as HTMLElement);
     const title = ref<string>('');
+    const $q = useQuasar();
+    const showModal = ref(false);
+    const { user } = useUser();
 
     const addTopic = () => {
       if (regexInputWithContent.exec(topicModel.value)) {
@@ -140,14 +152,46 @@ export default defineComponent({
       topics.value.splice(topicIndex, 1);
     };
 
+    onMounted(() => {
+      const dialog = $q.dialog({
+        title: 'Cargando editor',
+        progress: {
+          spinner: QSpinnerGears,
+          color: 'blue-6',
+        },
+        persistent: true, // we want the user to not be able to close it
+        ok: false, // we want the user to not be able to close it
+      });
+      setTimeout(() => {
+        dialog.hide();
+      }, 1250);
+    });
+
     const topicsStatus = computed(() => {
       return `${topics.value.length} / 3`;
     });
 
+    const saveAndPublish = async (published: boolean) => {
+      const options = {
+        published,
+        topics: topics.value,
+      };
+      const input = {
+        content: writtingModel.value,
+        user_id: user.id,
+        date: moment().format('YYY-MM-DD HH:mm a'),
+        title: title.value,
+        type: WRITTING_TYPE.WRITTING,
+        options: JSON.stringify(options),
+      };
+      const res = await writtingService.savePersonalWritting(input);
+      showModal.value = false;
+      console.log('response of writting', res);
+    };
+
     return {
       writtingModel,
       config,
-      titleModel,
       topicModel,
       addTopic,
       topics,
@@ -155,6 +199,8 @@ export default defineComponent({
       topicInput,
       title,
       topicsStatus,
+      showModal,
+      saveAndPublish,
     };
   },
 });

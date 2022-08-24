@@ -1,7 +1,7 @@
 <template>
   <section class="row items-center">
     <slot name="title"></slot>
-    <q-icon name="help" class="q-ml-md" size="0.75rem" color="primary">
+    <q-icon name="help" class="q-ml-md" size="0.95rem" color="primary">
       <q-tooltip>
         <slot name="hint"></slot>
       </q-tooltip>

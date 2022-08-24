@@ -35,7 +35,7 @@ export interface User {
   alias: string;
   email: string;
   options: string;
-  id: string;
+  id: number;
 }
 
 export interface LoginResponse {
@@ -59,3 +59,17 @@ export interface SigninUserData {
   name: string;
   lastName: string;
 }
+export interface Writting {
+  content: string;
+  user_id: number;
+  date: string;
+  title: string;
+  type: number;
+  options: string;
+}
+
+export type WrittingResponse = {
+  writting: Writting;
+  message: string;
+  status: number;
+};

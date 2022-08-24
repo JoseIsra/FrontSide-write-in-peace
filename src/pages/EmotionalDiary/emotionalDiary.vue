@@ -78,10 +78,11 @@
             <div class="full-width q-mt-lg q-px-md">
               <q-btn
                 label="Guardar"
-                no-caps
                 icon="save"
                 color="primary"
-                class="full-width q-py-sm"
+                outline
+                class="full-width q-py-sm text-weight-bold"
+                @click="sendAnswers"
               />
             </div>
           </q-timeline>
@@ -131,11 +132,19 @@ import 'atropos/css';
 import Atropos from 'atropos/vue';
 import moment from 'moment';
 import SectionTitle from 'shared/SectionTitle';
+import { useUser } from '@/composables/user';
+import { WRITTING_TYPE, API_RESPONSE } from '@/utils/constants';
+import { writtingService } from '@/api/writtingApi';
+import { errorNotification } from '@/utils/notification';
+import { useQuasar } from 'quasar';
 
 export default defineComponent({
   name: 'EmotionalDiary',
   components: { Atropos, SectionTitle },
   setup() {
+    const { user } = useUser();
+    const $q = useQuasar();
+
     const models = reactive({
       questionOne: '',
       questionTwo: '',
@@ -151,14 +160,54 @@ export default defineComponent({
       return `${currentDay.value} ${moment().locale('es').format('LL')}`;
     });
 
+    const triggerDialog = () => {
+      $q.dialog({
+        title: 'Se guardó exitosamente 😀',
+        message:
+          'Recuerda que puedes ver tus sesiones en la sección "Mi diario"',
+        position: 'left',
+        seamless: false,
+        ok: true,
+        cancel: false,
+        class: 'dialog-success',
+      });
+    };
+    const sendAnswers = async () => {
+      const input = {
+        content: JSON.stringify(models),
+        user_id: user.id,
+        date: moment().format('YYY-MM-DD HH:mm a'),
+        title: '.',
+        type: WRITTING_TYPE.DIARYEMOTIONAL,
+        options: '{}',
+      };
+      try {
+        const { status } = await writtingService.saveEmotionalDiarySession(
+          input
+        );
+        if (!(status == API_RESPONSE.SUCCESS)) {
+          // show error message
+          errorNotification('No se pudo guardar tu sesión');
+          return;
+        }
+        models.questionOne = '';
+        models.questionTwo = '';
+        models.questionThree = '';
+        triggerDialog();
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
     return {
       models,
       currentDate,
+      sendAnswers,
     };
   },
 });
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
 @import './emotionalDiary.scss';
 </style>
